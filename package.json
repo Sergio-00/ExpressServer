@@ -20,7 +20,11 @@
   },
   "homepage": "https://github.com/Sergio-00/ExpressServer#readme",
   "dependencies": {
+    "@prisma/client": "^6.19.0",
     "dotenv": "^17.2.3",
     "express": "^5.1.0"
+  },
+  "devDependencies": {
+    "prisma": "^6.19.0"
   }
 }
