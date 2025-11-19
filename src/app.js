@@ -1,11 +1,13 @@
 import express from "express";
+import tasks from "./routes/tasks.js";
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.json());
+app.use("/tasks", tasks);
 
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   res.send("API running");
 });
 
