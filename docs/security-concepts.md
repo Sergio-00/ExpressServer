@@ -21,3 +21,7 @@ Un JWT contiene un Header con el tipo de token, un Payload que contiene los dato
 Esto sirve para autenticación, permitir acceso a varias rutas, no tener que estar enviando el usuario y la contraseña y mantener la sesión.
 
 Un ejemplo seria cuando necesitas comprobar si tienes acceso a una información especifica de la página entonces puedes verificar rapidamente con este token.
+
+### Cómo implementamos JWT en este proyecto.
+
+En este proyecto usamos JWT para manejar la autenticación de los usuarios de forma segura. Cuando un usuario hace login, verificamos su email y contraseña usando bcrypt y, si son correctos, generamos un token JWT firmado con nuestro JWT_SECRET. Ese token incluye el sub (el id del usuario) y una fecha de expiración
