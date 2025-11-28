@@ -5,6 +5,7 @@ import express from "express";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
 
+import passport from "./config/passport.js";
 import tasks from "./routes/tasks.js";
 import auth from "./routes/auth.js";
 
@@ -16,6 +17,9 @@ const PORT = 3000;
 
 // Permitimos que express reciba texto json y lo interprete como un objeto en JavaScript.
 app.use(express.json());
+
+// Utilizamos passport para verificar
+app.use(passport.initialize());
 
 // Se permiten todos los sitios por una falta de front-end para el CORS.
 app.use(

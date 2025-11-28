@@ -1,4 +1,4 @@
-import { authMiddleware } from "../middlewares/authMiddleware.js";
+import passport from "../config/passport.js";
 import {
   getTasks,
   createTask,
@@ -8,11 +8,11 @@ import {
 import express from "express";
 const router = express.Router();
 
-router.use(authMiddleware);
+const requireAuth = passport.authenticate("jwt", { session: false });
 
-router.get("/", getTasks);
-router.post("/", createTask);
-router.put("/:id", putTask);
-router.delete("/:id", deleteTask);
+router.get("/", requireAuth, getTasks);
+router.post("/", requireAuth, createTask);
+router.put("/:id", requireAuth, putTask);
+router.delete("/:id", requireAuth, deleteTask);
 
 export default router;

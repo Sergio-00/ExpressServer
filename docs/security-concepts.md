@@ -22,6 +22,11 @@ Esto sirve para autenticación, permitir acceso a varias rutas, no tener que est
 
 Un ejemplo seria cuando necesitas comprobar si tienes acceso a una información especifica de la página entonces puedes verificar rapidamente con este token.
 
-### Cómo implementamos JWT en este proyecto.
+### Cómo implementamos JWT en este proyecto
 
 En este proyecto usamos JWT para manejar la autenticación de los usuarios de forma segura. Cuando un usuario hace login, verificamos su email y contraseña usando bcrypt y, si son correctos, generamos un token JWT firmado con nuestro JWT_SECRET. Ese token incluye el sub (el id del usuario) y una fecha de expiración
+
+### por qué usar Passport si ya habia un middleware personalizado
+
+Usar Passport en lugar de un middleware personalizado ayuda a manejar automáticamente la verificación de tokens y el manejo de errores, y facilita el mantenimiento y la escalabilidad del proyecto.  
+Mientras que un middleware propio funciona solo para casos específicos, Passport permite cambiar fácilmente la estrategia de autenticación (por ejemplo, JWT, OAuth o local) sin reescribir código, reduce la cantidad de lógica que debes mantener y asegura que las rutas protegidas tengan un comportamiento consistente y seguro.
