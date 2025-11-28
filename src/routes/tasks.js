@@ -1,3 +1,4 @@
+import { authMiddleware } from "../middlewares/authMiddleware.js";
 import {
   getTasks,
   createTask,
@@ -6,6 +7,8 @@ import {
 } from "../controllers/tasks.controller.js";
 import express from "express";
 const router = express.Router();
+
+router.use(authMiddleware);
 
 router.get("/", getTasks);
 router.post("/", createTask);

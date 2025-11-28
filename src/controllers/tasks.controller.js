@@ -2,7 +2,9 @@ import prisma from "../prismaClient.js";
 
 export const getTasks = async (req, res) => {
   try {
-    const tasks = await prisma.task.findMany();
+    const tasks = await prisma.task.findMany({
+      where: { userId: req.user.id },
+    });
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ error: "Error getting task" });
@@ -10,14 +12,14 @@ export const getTasks = async (req, res) => {
 };
 
 export const createTask = async (req, res) => {
-  const { title, description, status, userId } = req.body;
+  const { title, description, status } = req.body;
   try {
     const newTask = await prisma.task.create({
       data: {
         title,
         description,
         status,
-        userId: parseInt(userId),
+        userId: req.user.id,
       },
     });
     res.status(201).json(newTask);
@@ -28,8 +30,14 @@ export const createTask = async (req, res) => {
 
 export const putTask = async (req, res) => {
   const { id } = req.params;
-  const { title, description, userId, status } = req.body;
+  const { title, description, status } = req.body;
   try {
+    const task = await prisma.task.findUnique({ where: { id: parseInt(id) } });
+
+    if (!task || task.userId !== req.user.id) {
+      return res.status(403).json({ error: "Not allowed" });
+    }
+
     const updateTask = await prisma.task.update({
       where: {
         id: parseInt(id),
@@ -38,7 +46,6 @@ export const putTask = async (req, res) => {
         title,
         description,
         status,
-        userId: parseInt(userId),
       },
     });
     res.status(200).json(updateTask);
@@ -53,6 +60,12 @@ export const putTask = async (req, res) => {
 export const deleteTask = async (req, res) => {
   const { id } = req.params;
   try {
+    const task = await prisma.task.findUnique({ where: { id: parseInt(id) } });
+
+    if (!task || task.userId !== req.user.id) {
+      return res.status(403).json({ error: "Not allowed" });
+    }
+
     await prisma.task.delete({
       where: { id: parseInt(id) },
     });
